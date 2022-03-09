@@ -98,15 +98,15 @@ public class WeatherServiceImpl implements WeatherService {
                 + city.orElse("Kazan") + "&appid=50da205a9c76cfaf41a554bc57768910"));
 
         if (email.isPresent()) {
-            User user = userRepository.getByEmail(email.get());
-            if (user == null) {
+            Optional<User> user = userRepository.getByEmail(email.get());
+            if (user.isEmpty()) {
                 return json + " null";
             }
             Map<String, Object> weatherParse = parseGson(json);
 
 
             Weather weather = new Weather(city.orElse("Kazan"), weatherParse.get("main humidity").toString(), LocalDateTime.now().toString());
-            Resource resource = new Resource(user, city.orElse("Kazan"), weather);
+            Resource resource = new Resource(user.get(), city.orElse("Kazan"), weather);
 
             resourceRepository.save(resource);
 

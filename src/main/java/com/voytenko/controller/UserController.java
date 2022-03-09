@@ -4,36 +4,48 @@ import com.voytenko.dto.CreateUserDto;
 import com.voytenko.dto.UserDto;
 import com.voytenko.helpers.PasswordHelper;
 import com.voytenko.model.User;
-import com.voytenko.repository.UserRepository;
+import com.voytenko.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/user")
+    @ResponseBody
     public Iterable<UserDto> getAll(){
-        return userRepository.findAll().stream().map(UserDto::fromModel).collect(Collectors.toList());
+        return userService.findAll();
     }
 
     @PostMapping("/user")
+    @ResponseBody
     public UserDto createUser(@Valid @RequestBody CreateUserDto user){
-        return UserDto.fromModel(userRepository.save(new User(user.getName(), user.getEmail(), PasswordHelper.encrypt(user.getPassword()))));
+        return userService.save(user);
     }
 
     @GetMapping("/user/{id}")
+    @ResponseBody
     public UserDto getById(@PathVariable Integer id){
-        return userRepository.findById(id).stream().map(UserDto::fromModel).findFirst().orElse(null);
+        return userService.findById(id);
     }
 
+    @PostMapping("/sign_up")
+    public String signUp(@ModelAttribute(name = "user") CreateUserDto userDto) {
+        userService.save(userDto);
+        return "sign_up_success";
+    }
 
 
 
