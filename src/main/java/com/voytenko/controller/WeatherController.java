@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +35,14 @@ public class WeatherController {
         this.service = service;
     }
 
+//    @GetMapping("/weather")
+//    public String getWeather(@RequestParam Optional<String> city, @RequestParam Optional<String> email) throws IOException {
+//        return service.getWeather(city, email);
+//    }
+
     @GetMapping("/weather")
-    public String getWeather(@RequestParam Optional<String> city, @RequestParam Optional<String> email) throws IOException {
+    public String getWeather(@RequestParam Optional<String> city, HttpServletRequest request)  throws IOException {
+        Optional<String> email = Optional.ofNullable(request.getUserPrincipal().getName());
         return service.getWeather(city, email);
     }
 

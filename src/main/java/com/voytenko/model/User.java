@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @Builder
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String name;
@@ -32,6 +32,12 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Resource> resources;
 
+    @Column
+    private boolean enabled;
+
+    @Column(length = 64)
+    private String verificationCode;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -41,10 +47,11 @@ public class User {
     private Set<Role> roles;
 
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, String verificationCode) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.verificationCode = verificationCode;
     }
 
 }

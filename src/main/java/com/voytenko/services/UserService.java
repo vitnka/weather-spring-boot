@@ -9,5 +9,8 @@ public interface UserService {
 
     UserDto findById (Integer id);
     List<UserDto> findAll();
-    UserDto save(CreateUserDto createUserDto);
+    UserDto signUp(CreateUserDto createUserDto, String url);
+    UserDto findByEmail(String email);
+    boolean verify (String verificationCode);
+    void sendVerificationMail(String email, String url, String name, String code);
 }
