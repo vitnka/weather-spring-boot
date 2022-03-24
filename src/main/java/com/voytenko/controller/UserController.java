@@ -38,12 +38,6 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @GetMapping("/user/{email}")
-    @ResponseBody
-    public UserDto getByEmail(@PathVariable String email){
-        return userService.findByEmail(email);
-    }
-
     @PostMapping("/sign_up")
     public String signUp(@ModelAttribute(name = "user") CreateUserDto userDto, HttpServletRequest request) {
         String url = request.getRequestURL().toString().replace(request.getServletPath(), "");
