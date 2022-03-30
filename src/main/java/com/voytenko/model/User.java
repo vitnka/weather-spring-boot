@@ -29,9 +29,6 @@ public class User {
     @Column(nullable = false, length = 64)
     private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Resource> resources;
-
     @Column
     private boolean enabled;
 

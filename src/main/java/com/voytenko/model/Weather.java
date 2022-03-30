@@ -15,10 +15,6 @@ public class Weather {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "resource_id")
-    private Resource resource;
-
     private String city;
     private String humidity;
     private String time;

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Table
 public class Resource {
 
     @Id
@@ -25,7 +26,7 @@ public class Resource {
     private String city;
 
     @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "weather_id")
+    @JoinColumn(name="weather_id")
     private Weather weather;
 
     public Resource(User user, String city, Weather weather) {

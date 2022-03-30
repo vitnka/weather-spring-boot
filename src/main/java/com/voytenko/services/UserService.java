@@ -13,4 +13,6 @@ public interface UserService {
     UserDto findByEmail(String email);
     boolean verify (String verificationCode);
     void sendVerificationMail(String email, String url, String name, String code);
+
+    List<UserDto> getAll();
 }

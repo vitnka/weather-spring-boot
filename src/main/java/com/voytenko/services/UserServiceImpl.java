@@ -5,6 +5,7 @@ import com.voytenko.dto.CreateUserDto;
 import com.voytenko.dto.UserDto;
 import com.voytenko.model.User;
 import com.voytenko.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -29,14 +31,6 @@ public class UserServiceImpl implements UserService {
     private final JavaMailSender javaMailSender;
     private final MailConfig mailConfig;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder encoder, JavaMailSender javaMailSender, MailConfig mailConfig) {
-        this.userRepository = userRepository;
-        this.encoder = encoder;
-        this.javaMailSender = javaMailSender;
-        this.mailConfig = mailConfig;
-
-    }
 
     @Override
     public UserDto findById(Integer id) {
@@ -110,5 +104,10 @@ public class UserServiceImpl implements UserService {
         }
 
         javaMailSender.send(mimeMessage);
+    }
+
+    @Override
+    public List<UserDto> getAll() {
+        return UserDto.fromModel(userRepository.findAll());
     }
 }

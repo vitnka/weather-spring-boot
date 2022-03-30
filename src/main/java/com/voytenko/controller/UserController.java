@@ -3,12 +3,14 @@ package com.voytenko.controller;
 import com.voytenko.dto.CreateUserDto;
 import com.voytenko.dto.UserDto;
 import com.voytenko.services.UserService;
+import liquibase.pro.packaged.S;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 public class UserController {
@@ -20,17 +22,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     @ResponseBody
     public Iterable<UserDto> getAll(){
         return userService.findAll();
     }
-//
-//    @PostMapping("/user")
-//    @ResponseBody
-//    public UserDto createUser(@Valid @RequestBody CreateUserDto user){
-//        return userService.save(user);
-//    }
 
     @GetMapping("/user/{id}")
     @ResponseBody
