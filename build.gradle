@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.6.3'
     id 'org.liquibase.gradle' version '2.0.4'
+    id 'jacoco'
 }
 
 group 'ru.itis'
@@ -40,22 +41,28 @@ dependencies {
     testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     testImplementation "com.h2database:h2:1.4.200"
     testImplementation "junit:junit:4.12"
+    testImplementation 'org.springframework.security:spring-security-test:5.6.2'
 }
 
-    def props = new Properties()
-    file("src/main/resources/liquibase.properties").withInputStream { props.load(it) }
+def props = new Properties()
+file("src/main/resources/liquibase.properties").withInputStream { props.load(it) }
 
-    liquibase {
-        activities {
-            main {
-                changeLogFile props.getProperty("changeLogFile")
-                url props.getProperty("url")
-                username props.getProperty("username")
-                password props.getProperty("password")
-                driver props.getProperty("driver")
-            }
+liquibase {
+    activities {
+        main {
+            changeLogFile props.getProperty("changeLogFile")
+            url props.getProperty("url")
+            username props.getProperty("username")
+            password props.getProperty("password")
+            driver props.getProperty("driver")
         }
     }
-        test {
-            useJUnitPlatform()
-        }
+}
+test {
+    useJUnit()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+}
