@@ -39,7 +39,7 @@ public class UserControllerUnitTest {
     public void init() {
         User user  = new User();
         user.setName("testName");
-        given(userService.getAll()).willReturn(Collections.singletonList(UserDto.fromModel(user)));
+        given(userService.getAll()).willReturn(Arrays.asList(UserDto.fromModel(user)));
     }
 
     @Test

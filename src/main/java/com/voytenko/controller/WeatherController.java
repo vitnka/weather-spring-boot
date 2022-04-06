@@ -1,6 +1,7 @@
 package com.voytenko.controller;
 
 
+import com.voytenko.aspect.Loggable;
 import com.voytenko.dto.ResourceDto;
 import com.voytenko.dto.WeatherDto;
 import com.voytenko.model.Resource;
@@ -41,6 +42,7 @@ public class WeatherController {
 //    }
 
     @GetMapping("/weather")
+    @Loggable
     public String getWeather(@RequestParam Optional<String> city, HttpServletRequest request)  throws IOException {
         Optional<String> email = Optional.ofNullable(request.getUserPrincipal().getName());
         return service.getWeather(city, email);
@@ -51,6 +53,7 @@ public class WeatherController {
         return service.findAll();
     }
 
+    @Loggable
     @GetMapping("/weather/{city}")
     public List<WeatherDto> get(@PathVariable String city) {
         return WeatherDto.from(service.findAllByCity(city));
