@@ -1,7 +1,9 @@
 package com.voytenko.controller;
 
 import com.voytenko.dto.CreateUserDto;
-import org.hibernate.annotations.Cache;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +16,17 @@ public class HelloController {
         return "index";
     }
 
+    @ApiOperation(value = "Регистрация нового пользователя", notes = "Возвращает html-страницу")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved"),
+            @ApiResponse(code = 404, message = "Not found - The page was not found")
+    })
     @GetMapping("/sign_up")
     public String getSignUp(Model model) {
         model.addAttribute("user", new CreateUserDto());
         return "sign_up";
     }
+
 
     @GetMapping("/home")
     public String getHome() {
